@@ -3,24 +3,46 @@ import java.util.Scanner;
 public class Main {
   public static void main (String[] args) {
 	String[] board = new String[9];
-	Scanner scanner = new Scanner(System.in);
 	String turn = "x";
-	Boolean winner = false;
+	Scanner scanner = new Scanner(System.in);
 	for (int i = 0; i < board.length; i++) {
 	  board[i] = String.valueOf(i + 1);
 	}
 
-	new drawBoard(board);
+	newTurn nextTurn = new newTurn();
+	setWinner getWinner = new setWinner();
 
-	System.out.println("\n" + "Starting game...");
-	System.out.println("Is the turn of player: " + turn);
-	System.out.println("Please select the number where you like to place your mark...");
-	int userInput = scanner.nextInt();
-	board[userInput - 1] = turn;
+	for (int i = 0; i < 9; i++) {
+//	  First Board Draw
+	  if (i == 0) {
+		System.out.println("\n" + "Starting game...");
+		new drawBoard(board);
+	  }
 
-	new drawBoard(board);
+//	  Check user input and winner
+	  nextTurn.setTurn(board, scanner, turn);
+	  getWinner.checkWinner(board, turn);
+
+//	  if invalid input is true end game
+	  if (nextTurn.invalidInput) {
+		return;
+	  }
+
+//	  if winner then end game
+	  if (getWinner.winner) {
+		System.out.println("Game over, the winner is the player: " + turn);
+		return;
+	  }
+
+//	  Change turns
+	  if (turn.equals("x")) {
+		turn = "o";
+	  } else turn = "x";
+
+
+	}
+
+
   }
-
-
 }
 
